@@ -1,155 +1,73 @@
-cmake_minimum_required(VERSION 3.0)
-project(some C)
+# Santas Day Off
+A mini game in which you help Santa to deliver his gifts to the children.
+Have a look at the wishes to get the perfect score.
+If you do to much mistakes, you will get fired!
 
-# Optional definitions set:
-# OPTION_GLES           for OpenGLES3.0 instead of OpenGL3.3
-# OPTION_GLEW           if GLEW is available
-# OPTION_SDL            is set to let rhc code use SDL function
-# OPTION_FETCH          to use u_fetch (http rest)
-# OPTION_SOCKET         to use rhc sockets
-# OPTION_TTF            to use ro_ttftext
-# OPTION_GYRO           if gyro sensor is available
-# -not used- OPTION_GL_ERROR       if set, functions use r_render_check_error (heavy op, if summed up)
-#
-# NDEBUG                is used at a few points, too
-# MATHC_NO_PRINT_COLOR  disable colored mathc prints
-# NUKLEAR_SCALE=3.0     for small hd screens (smartphones)
-# RHC_LOG_DO_NOT_PRINT_TIME_FILE disable time and file in logs
+## Livedemo
+[Emscripten compiled game](https://renehorstmann.github.io/santasdayoff/)
 
-set(CMAKE_C_STANDARD 11)
-
-#set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} -march=native)  # march=native for best performance
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -Wno-long-long -Wno-unused-function -Wno-unused-variable -Wno-missing-braces")
-
-include_directories(
-        ${PROJECT_SOURCE_DIR}/include
-        ${PROJECT_SOURCE_DIR}/src
-)
-file(GLOB SRCS
-        "${PROJECT_SOURCE_DIR}/include/*"
-        "${PROJECT_SOURCE_DIR}/src/*"
-        "${PROJECT_SOURCE_DIR}/src/e/*"
-        "${PROJECT_SOURCE_DIR}/src/r/*"
-        "${PROJECT_SOURCE_DIR}/src/u/*"
-        "${PROJECT_SOURCE_DIR}/src/p/*"
-        )
-
-add_executable(some ${SRCS})
-
-# check platform
-if (MINGW)
-    message("Platform: Windows MinGW")
-    set(PLATFORM_MINGW true)
-else()
-    find_library(GL_LIB GL)
-    find_library(GLES_LIB GLESv3)
-    if (GL_LIB)
-        message("Platform: Unix")
-        set(PLATFORM_UNIX true)
-    elseif (GLES_LIB)
-        message("Platform: Mobile")
-        set(PLATFORM_MOBILE true)
-    else()
-        message(FATAL_ERROR "Platform: unknown, neither GL nor GLES found!")
-    endif()
-endif()
+## engine
+Based on [some](http://github.com/renehorstmann/some) framework.
 
 
-# all platforms:
-add_definitions(-DOPTION_FETCH)
-add_definitions(-DOPTION_SOCKET)
-add_definitions(-DOPTION_TTF)
-target_link_libraries(some m)
+## Highscore
+The highscore system is run by the [HighscoreServer](https://github.com/renehorstmann/HighscoreServer) App.
+To use it, set your own HIGHSCORE_SECRET_KEY and SHOWSCORE_URL.
+The default will use your local running Highscoreserver (http://127.0.0.1:1000/api/swarm) with the key: 12345
 
-# windows
-if (PLATFORM_MINGW)
-    message("Setup Windows MinGW")
-    # mingw is not shipped with a find_package(SDL2) script
-    add_definitions(-Dmain=SDL_main)
-    add_definitions(-DOPTION_GLEW)
-    add_definitions(-DOPTION_SDL)
-    add_definitions(-DMATHC_NO_PRINT_COLOR)
+## Compiling for Web
 
-    # mingw may not find a few libraries, due to missing CMAKE_LIBRARY_PATH lib paths
-    find_library(OPENGL_LIB opengl32 REQUIRED)
-    find_library(GLEW_LIB glew32 REQUIRED)
-    find_library(GLU_LIB glu32 REQUIRED)
+Using Emscripten:
+```sh
+mkdir web && cd web
+```
 
-    target_link_libraries(some m
-            mingw32
-            SDL2main
-            SDL2
-            SDL2_image
-            SDL2_net
-            SDL2_ttf
-            curl
-            ${OPENGL_LIB}
-            ${GLEW_LIB}
-            ${GLU_LIB}
-            )
-endif()
+```sh
+emcc -I../include/ -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_SDL_MIXER=2 -s FULL_ES3=1 -s EXPORTED_FUNCTIONS='["_main", "_e_io_idbfs_synced"]' -s SDL2_IMAGE_FORMATS='["png"]'  --preload-file ../res -s ALLOW_MEMORY_GROWTH=1 -s ASYNCIFY=1 -s EXIT_RUNTIME=1 -s FETCH=1 -lidbfs.js -DOPTION_GLES -DOPTION_SDL -DOPTION_FETCH ../src/e/*.c ../src/p/*.c ../src/r/*.c ../src/u/*.c ../src/*.c -o index.html
+```
 
+Copy the icons into the webpage
 
-# unix
-if (PLATFORM_UNIX)
-    message("Setup Unix")
-    find_package(SDL2 REQUIRED)
-    find_library(SDL2_IMAGE_LIBRARIES SDL2_image REQUIRED)
-    find_library(SDL2_NET_LIBRARIES SDL2_net REQUIRED)
-    find_library(SDL2_TTF_LIBRARIES SDL2_ttf REQUIRED)
+````shell
+cp ../icon/* .
+````
 
-    find_library(CURL_LIBRARIES curl REQUIRED)
+Add the following changes to the generated index.html (into the head...):
 
-    find_library(GL_LIB GL REQUIRED)
+```html
 
-    target_link_libraries(some
-            ${SDL2_LIBRARIES}
-            ${SDL2_IMAGE_LIBRARIES}
-            ${SDL2_NET_LIBRARIES}
-            ${SDL2_TTF_LIBRARIES}
-            ${CURL_LIBRARIES}
-            ${GL_LIB}
-    )
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="icon180.png">
+<link rel="shortcut icon" href="icon196.png" sizes="196x196">
 
-    # not necessary in unix
-    find_library(GLEW_LIB GLEW)
-    if (GLEW_LIB)
-        add_definitions(-DOPTION_GLEW)
-        target_link_libraries(some ${GLEW_LIB})
-    endif ()
-endif()
+<style>
+    #canvas {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: block;
+    }
+</style>
+<script>
+    function set_error_img() {
+        var newContent = '<!DOCTYPE html><html><body style="background-color:black;"><h1 style="color:white;">Potato Browsers are not supported!</h1><p style="color:silver;">Full WebGL2.0 is needed!</p></body></html>';
+        document.open();
+        document.write(newContent);
+        document.close();
+    }
+</script>
+```
+This will let Emscripten run in fullscreen and display an error text, if the app / game is not able to run (WebGL2.0 support missing)
 
 
-# mobile
-if (PLATFORM_MOBILE)
-    message("Setup Mobile")
-    add_definitions(-DOPTION_GLES)
-    add_definitions(-DOPTION_SDL)
-    add_definitions(-DOPTION_GYRO)
-    add_definitions(-DMATHC_NO_PRINT_COLOR)
-    add_definitions(-DNUKLEAR_SCALE=3.0)
-    add_definitions(-DRHC_LOG_DO_NOT_PRINT_TIME_FILE)
+## Author
+René Horstmann
 
-    find_package(SDL2 REQUIRED)
-    find_package(SDL2_image REQUIRED)
-    find_package(SDL2_net REQUIRED)
-    find_package(SDL2_ttf REQUIRED)
-
-    find_package(CURL REQUIRED)
-
-    find_library(GLES_LIB GLESv3 REQUIRED)
-
-    target_link_libraries(some
-            ${SDL2_LIBRARIES}
-            ${SDL2_IMAGE_LIBRARIES}
-            ${SDL2_NET_LIBRARIES}
-            ${SDL2_TTF_LIBRARIES}
-            ${CURL_LIBRARIES}
-            ${GLES_LIB}
-    )
-endif()
-
-
-# res
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+## Licence
+- The game and its assets are licenced under GPLv3, see LICENCE.
+- The [some](https://github.com/renehorstmann/some) framework is under MIT licence, see someLICENCE.
+- Have a look at [some_examples](https://github.com/renehorstmann/some_examples) for some shared modules, under the MIT licence
