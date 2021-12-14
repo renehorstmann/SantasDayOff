@@ -57,8 +57,8 @@ endif()
 
 # all platforms:
 add_definitions(-DOPTION_FETCH)
-add_definitions(-DOPTION_SOCKET)
-add_definitions(-DOPTION_TTF)
+# add_definitions(-DOPTION_SOCKET)
+# add_definitions(-DOPTION_TTF)
 target_link_libraries(santasdayoff m)
 
 # windows
