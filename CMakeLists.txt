@@ -82,6 +82,7 @@ if (PLATFORM_MINGW)
             SDL2_image
             SDL2_net
             SDL2_ttf
+            SDL2_mixer
             curl
             ${OPENGL_LIB}
             ${GLEW_LIB}
@@ -97,6 +98,7 @@ if (PLATFORM_UNIX)
     find_library(SDL2_IMAGE_LIBRARIES SDL2_image REQUIRED)
     find_library(SDL2_NET_LIBRARIES SDL2_net REQUIRED)
     find_library(SDL2_TTF_LIBRARIES SDL2_ttf REQUIRED)
+    find_library(SDL2_MIXER_LIBRARIES SDL2_mixer)
 
     find_library(CURL_LIBRARIES curl REQUIRED)
 
@@ -107,6 +109,7 @@ if (PLATFORM_UNIX)
             ${SDL2_IMAGE_LIBRARIES}
             ${SDL2_NET_LIBRARIES}
             ${SDL2_TTF_LIBRARIES}
+            ${SDL2_MIXER_LIBRARIES}
             ${CURL_LIBRARIES}
             ${GL_LIB}
     )
@@ -134,6 +137,7 @@ if (PLATFORM_MOBILE)
     find_package(SDL2_image REQUIRED)
     find_package(SDL2_net REQUIRED)
     find_package(SDL2_ttf REQUIRED)
+    find_package(SDL2_mixer REQUIRED)
 
     find_package(CURL REQUIRED)
 
@@ -144,6 +148,7 @@ if (PLATFORM_MOBILE)
             ${SDL2_IMAGE_LIBRARIES}
             ${SDL2_NET_LIBRARIES}
             ${SDL2_TTF_LIBRARIES}
+            ${SDL2_MIXER_LIBRARIES}
             ${CURL_LIBRARIES}
             ${GLES_LIB}
     )
