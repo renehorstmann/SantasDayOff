@@ -33,7 +33,7 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
 
 // this function is calles each frame to render stuff, dtime is the time between frames
 static void render(eSimple *simple, ivec2 window_size, float dtime) {
-    mat4 *camera_mat = &L.camera.matrices.vp;
+    mat4 *camera_mat = &L.camera.matrices_main.vp;
 
     ro_text_render(&L.text, camera_mat);
 
