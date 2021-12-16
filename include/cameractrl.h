@@ -1,5 +1,5 @@
-#ifndef GMTKJAM21_CAMERACTRL_H
-#define GMTKJAM21_CAMERACTRL_H
+#ifndef SANTASDAYOFF_CAMERACTRL_H
+#define SANTASDAYOFF_CAMERACTRL_H
 
 #include "camera.h"
 
@@ -15,4 +15,4 @@ CameraCtrl_s cameractrl_new();
 
 void cameractrl_update(CameraCtrl_s *self, Camera_s *cam, float dtime);
 
-#endif //GMTKJAM21_CAMERACTRL_H
+#endif //SANTASDAYOFF_CAMERACTRL_H

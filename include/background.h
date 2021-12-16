@@ -1,5 +1,5 @@
-#ifndef GMTKJAM21_BACKGROUND_H
-#define GMTKJAM21_BACKGROUND_H
+#ifndef SANTASDAYOFF_BACKGROUND_H
+#define SANTASDAYOFF_BACKGROUND_H
 
 #include "r/render.h"
 #include "r/ro_types.h"
@@ -20,4 +20,4 @@ void background_kill(Background **self_ptr);
 
 void background_render(const Background *self, const Camera_s *cam);
 
-#endif //GMTKJAM21_BACKGROUND_H
+#endif //SANTASDAYOFF_BACKGROUND_H

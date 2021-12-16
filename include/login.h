@@ -1,5 +1,5 @@
-#ifndef GMTKJAM21_LOGIN_H
-#define GMTKJAM21_LOGIN_H
+#ifndef SANTASDAYOFF_LOGIN_H
+#define SANTASDAYOFF_LOGIN_H
 
 #include "e/input.h"
 #include "r/ro_types.h"
@@ -36,4 +36,4 @@ void login_update(Login *self, ivec2 window_size, float dtime);
 
 void login_render(const Login *self, const mat4 *hud_cam_mat);
 
-#endif //GMTKJAM21_LOGIN_H
+#endif //SANTASDAYOFF_LOGIN_H

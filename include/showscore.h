@@ -1,5 +1,5 @@
-#ifndef GMTKJAM21_SHOWSCORE_H
-#define GMTKJAM21_SHOWSCORE_H
+#ifndef SANTASDAYOFF_SHOWSCORE_H
+#define SANTASDAYOFF_SHOWSCORE_H
 
 #include "e/input.h"
 #include "r/ro_types.h"
@@ -37,4 +37,4 @@ void showscore_render(const ShowScore *self, const mat4 *hudcam_mat);
 // pointer should be tranformed with the cam v_p_inv matrix
 void showscore_pointer(ShowScore *self, ePointer_s pointer);
 
-#endif //GMTKJAM21_SHOWSCORE_H
+#endif //SANTASDAYOFF_SHOWSCORE_H

@@ -1,5 +1,5 @@
-#ifndef GMTKJAM21_FIRSTNAME_H
-#define GMTKJAM21_FIRSTNAME_H
+#ifndef SANTASDAYOFF_FIRSTNAME_H
+#define SANTASDAYOFF_FIRSTNAME_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -345,4 +345,4 @@ static void firstname_generate(char *out_name) {
         *it-- = '\0';
 }
 
-#endif //GMTKJAM21_FIRSTNAME_H
+#endif //SANTASDAYOFF_FIRSTNAME_H

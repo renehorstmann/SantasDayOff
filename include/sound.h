@@ -1,5 +1,5 @@
-#ifndef GMTKJAM21_SOUND_H
-#define GMTKJAM21_SOUND_H
+#ifndef SANTASDAYOFF_SOUND_H
+#define SANTASDAYOFF_SOUND_H
 
 #include "e/input.h"
 
@@ -17,4 +17,4 @@ void sound_play_shark(Sound *self);
 
 void sound_play_gameover(Sound *self);
 
-#endif //GMTKJAM21_SOUND_H
+#endif //SANTASDAYOFF_SOUND_H

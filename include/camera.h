@@ -1,5 +1,5 @@
-#ifndef GMTKJAM21_CAMERA_H
-#define GMTKJAM21_CAMERA_H
+#ifndef SANTASDAYOFF_CAMERA_H
+#define SANTASDAYOFF_CAMERA_H
 
 /*
  * PixelPerfect canvas camera with view matrix.
@@ -57,4 +57,4 @@ void camera_set_size(Camera_s *self, float size);
 
 void camera_set_angle(Camera_s *self, float alpha);
 
-#endif //GMTKJAM21_CAMERA_H
+#endif //SANTASDAYOFF_CAMERA_H

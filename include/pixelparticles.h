@@ -1,5 +1,5 @@
-#ifndef GMTKJAM21_PIXELPARTICLES_H
-#define GMTKJAM21_PIXELPARTICLES_H
+#ifndef SANTASDAYOFF_PIXELPARTICLES_H
+#define SANTASDAYOFF_PIXELPARTICLES_H
 
 #include "r/rect.h"
 #include "u/color.h"
@@ -25,4 +25,4 @@ void pixelparticles_render(const PixelParticles *self, const mat4 *cam_mat);
 
 void pixelparticles_add(PixelParticles *self, const rParticleRect_s *particles, int n);
 
-#endif //GMTKJAM21_PIXELPARTICLES_H
+#endif //SANTASDAYOFF_PIXELPARTICLES_H

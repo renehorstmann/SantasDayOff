@@ -1,5 +1,5 @@
-#ifndef GMTKJAM21_BUTTON_H
-#define GMTKJAM21_BUTTON_H
+#ifndef SOME_BUTTON_H
+#define SOME_BUTTON_H
 
 #include <stdbool.h>
 #include "e/input.h"
@@ -15,4 +15,4 @@ bool button_pressed(rRect_s *self, ePointer_s pointer);
 
 bool button_toggled(rRect_s *self, ePointer_s pointer);
 
-#endif //GMTKJAM21_BUTTON_H
+#endif //SOME_BUTTON_H
