@@ -7,12 +7,14 @@
 #include "camera.h"
 #include "background.h"
 #include "santa.h"
+#include "bag.h"
 
 static struct {
     Camera_s camera;
     
     Background *bg;
     Santa *santa;
+    Bag *bag;
 } L;
 
 
@@ -24,6 +26,8 @@ static void init(eSimple *simple, ivec2 window_size) {
     L.bg = background_new(simple->render, 1024*64, 1024, true, true, "res/bg.png");
     
     L.santa = santa_new(NULL);
+    
+    L.bag = bag_new();
 }
 
 
@@ -33,6 +37,8 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
     camera_update(&L.camera, window_size);
     
     santa_update(L.santa, dtime);
+    
+    bag_update(L.bag, dtime, &L.camera);
     
     
     static float pos = 150;
@@ -45,10 +51,13 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
 // this function is calles each frame to render stuff, dtime is the time between frames
 static void render(eSimple *simple, ivec2 window_size, float dtime) {
     mat4 *camera_mat = &L.camera.matrices_main.vp;
+    mat4 *hudcam_mat = &L.camera.matrices_p;
 
     background_render(L.bg, &L.camera);
     
     santa_render(L.santa, camera_mat);
+    
+    bag_render(L.bag, hudcam_mat);
     
     // uncomment to clone the current framebuffer into r_render_get_framebuffer_tex
     // r_render_blit_framebuffer(simple->render, window_size);

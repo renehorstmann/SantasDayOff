@@ -3,7 +3,6 @@
 
 /*
  * PixelPerfect canvas camera with view matrix.
- * So a unit has an integral number of pixels, until its <1 (units_per_pixels aka scale)
  * To control the camera position and size
  */
 
@@ -12,7 +11,8 @@
 #include "mathc/types/int.h"
 
 
-#define CAMERA_SIZE 240 // *3=720; *4.5=1080; *6=1440
+#define CAMERA_SIZE 180 // *4=720; *6=1080; *8=1440
+#define CAMERA_SCREEN_WEIGHT (3.0/5.0)
 #define CAMERA_BACKGROUNDS 6
 
 struct CameraMatrices_s {
@@ -28,11 +28,17 @@ typedef struct {
 
     struct CameraMatrices_s matrices_background[CAMERA_BACKGROUNDS];
     struct CameraMatrices_s matrices_main;
-
-
+    
+    
     struct {
-        float scale; // units per pixel
+        float scale;    // units per pixel
         float left, right, bottom, top;
+        
+        vec2 offset;
+        
+        // in texture space (origin is top left) [0:1]
+        // as center_x, _y, radius_x, _y
+        vec4 view_aabb;
     } RO; // read only
 
 } Camera_s;
@@ -56,5 +62,10 @@ void camera_set_pos(Camera_s *self, float x, float y);
 void camera_set_size(Camera_s *self, float size);
 
 void camera_set_angle(Camera_s *self, float alpha);
+
+static bool camera_is_portrait_mode(const Camera_s *self) {
+    return camera_height(self) > camera_width(self);
+}
+
 
 #endif //SANTASDAYOFF_CAMERA_H
