@@ -7,7 +7,7 @@
 
 #include "gifts.h"
 
-#define START_SPEED -32
+#define START_SPEED -64
 #define ACC -100
 
 
