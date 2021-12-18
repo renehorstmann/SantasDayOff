@@ -103,6 +103,10 @@ void camera_update(Camera_s *self, ivec2 window_size) {
     self->RO.right = right;
     self->RO.top = top;
     self->RO.bottom = bottom;
+    self->RO.full_left = cam_left;
+    self->RO.full_right = cam_right;
+    self->RO.full_top = cam_top;
+    self->RO.full_bottom = cam_bottom;
    
    
     // view_aabb:
@@ -119,6 +123,8 @@ void camera_set_pos(Camera_s *self, float x, float y) {
     // bottom left 'c'orner
     float cx = x + self->RO.left;
     float cy = y + self->RO.bottom;
+    
+    cx = x; cy = y;
     
     x = floorf(x * self->RO.scale) / self->RO.scale;
     y = floorf(y * self->RO.scale) / self->RO.scale;

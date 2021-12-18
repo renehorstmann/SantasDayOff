@@ -6,7 +6,7 @@
 
 #include "santa.h"
 
-#define SPEED 100
+#define SPEED 32
 #define ANIMATION_FPS 8
 
 Santa *santa_new(PixelParticles *particles) {
@@ -37,9 +37,12 @@ void santa_update(Santa *self, float dtime) {
     self->L.ro.rect.sprite.x = frame;
     
     float x = self->L.time * SPEED;
-    x += 100;
+    x += 0;
     
-    self->L.ro.rect.pose = u_pose_new(x, 300,
+    self->out.center_pos = (vec2) {{x, 200}};
+    self->out.gift_pos = (vec2) {{x-32, 200-8}};
+    
+    self->L.ro.rect.pose = u_pose_new(x, 200,
             -128, 64);
 }
 

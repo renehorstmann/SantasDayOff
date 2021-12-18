@@ -21,8 +21,8 @@ Background *background_new(rRender *render, float level_width, float level_heigh
 
     // top left pixel will be clear color
     r_render_clear_color(render)->rgb = vec3_cast_from_uchar_1(u_image_pixel(img, 0, 0, 0)->v);
-
-
+    
+    
     float rows = img.rows * PIXEL_SIZE;
     float cols = img.cols * PIXEL_SIZE;
 

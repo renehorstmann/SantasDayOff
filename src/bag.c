@@ -68,11 +68,13 @@ void bag_update(Bag *self, float dtime, const Camera_s *cam) {
         if(camera_is_portrait_mode(cam)) {
             self->L.gifts.rects[i].pose = u_pose_new(
                     -60 + c*40,
-                    cam->RO.bottom - 30 - r*40,
+                    cam->RO.full_bottom + 80 - r*40
+                    - (self->L.gifts.rects[i].color.r<0.9? 2 : 0),
                     32, 32);
         } else {
             self->L.gifts.rects[i].pose = u_pose_new(
-                    cam->RO.right + 30 + r*40,
+                    cam->RO.full_right - 80 + r*40
+                    + (self->L.gifts.rects[i].color.r<0.9? 2 : 0),
                     -60 + c*40,
                     32, 32);
         }

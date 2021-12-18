@@ -8,6 +8,7 @@
 #include "background.h"
 #include "santa.h"
 #include "bag.h"
+#include "gifts.h"
 
 static struct {
     Camera_s camera;
@@ -15,19 +16,34 @@ static struct {
     Background *bg;
     Santa *santa;
     Bag *bag;
+    Gifts *gifts;
 } L;
+
+
+static void pointer_event(ePointer_s pointer, void *ud) {
+     // hud pointer.pos in hud coords
+    ePointer_s hud_pointer = pointer;
+    hud_pointer.pos = mat4_mul_vec(L.camera.matrices_p_inv, pointer.pos);
+    
+    bag_pointer_event(L.bag, hud_pointer);
+}
 
 
 // this function will be called at the start of the app
 static void init(eSimple *simple, ivec2 window_size) {
+    
+    e_input_register_pointer_event(simple->input, pointer_event, NULL);
+    
     // init systems
     L.camera = camera_new();
 
-    L.bg = background_new(simple->render, 1024*64, 1024, true, true, "res/bg.png");
+    L.bg = background_new(simple->render, 1024*64, 1024, true, false, "res/bg.png");
     
     L.santa = santa_new(NULL);
     
     L.bag = bag_new();
+    
+    L.gifts = gifts_new(NULL);
 }
 
 
@@ -40,11 +56,21 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
     
     bag_update(L.bag, dtime, &L.camera);
     
+    gifts_update(L.gifts, dtime);
     
-    static float pos = 150;
-    pos += dtime*100;
     
-    camera_set_pos(&L.camera, pos, 250);
+    float pos = L.santa->out.center_pos.x;
+    pos += 0;
+    
+    
+    camera_set_pos(&L.camera, pos, 0);
+    
+    for(int i=0; i<8; i++) {
+        if(L.bag->out.pressed[i]) {
+            gifts_add(L.gifts, i, L.santa->out.gift_pos);
+        }
+    }
+    
 }
 
 
@@ -54,6 +80,8 @@ static void render(eSimple *simple, ivec2 window_size, float dtime) {
     mat4 *hudcam_mat = &L.camera.matrices_p;
 
     background_render(L.bg, &L.camera);
+    
+    gifts_render(L.gifts, camera_mat);
     
     santa_render(L.santa, camera_mat);
     

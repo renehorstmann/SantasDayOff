@@ -8,6 +8,7 @@ typedef struct {
     PixelParticles *particles_ref;
 
     struct {
+        vec2 center_pos;
         vec2 gift_pos;
     } out;
     
