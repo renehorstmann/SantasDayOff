@@ -5,10 +5,12 @@
 #include "u/pose.h"
 
 #include "camera.h"
+#include "background.h"
 
 static struct {
     Camera_s camera;
-    RoText text;
+    
+    Background *bg;
 } L;
 
 
@@ -17,8 +19,7 @@ static void init(eSimple *simple, ivec2 window_size) {
     // init systems
     L.camera = camera_new();
 
-    L.text = ro_text_new_font55(128);
-    ro_text_set_text(&L.text, "Hello World");
+    L.bg = background_new(simple->render, 1024*64, 1024, true, true, "res/bg.png");
 }
 
 
@@ -26,8 +27,11 @@ static void init(eSimple *simple, ivec2 window_size) {
 static void update(eSimple *simple, ivec2 window_size, float dtime) {
     // simulate
     camera_update(&L.camera, window_size);
-
-    u_pose_set_xy(&L.text.pose, L.camera.RO.left + 5, L.camera.RO.top-5);
+    
+    static float pos = 150;
+    pos += dtime*100;
+    
+    camera_set_pos(&L.camera, pos, 250);
 }
 
 
@@ -35,8 +39,8 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
 static void render(eSimple *simple, ivec2 window_size, float dtime) {
     mat4 *camera_mat = &L.camera.matrices_main.vp;
 
-    ro_text_render(&L.text, camera_mat);
-
+    background_render(L.bg, &L.camera);
+    
     // uncomment to clone the current framebuffer into r_render_get_framebuffer_tex
     // r_render_blit_framebuffer(simple->render, window_size);
 }
