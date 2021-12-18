@@ -4,12 +4,14 @@
 #include "u/pose.h"
 
 #include "rhc/alloc.h"
+#include "mathc/float.h"
 
-#include "button.h"
 #include "bag.h"
 
 #define SPEED 100
 #define ANIMATION_FPS 8
+
+const static vec4 color_pressed = {0.5, 0.5, 0.5, 1.0};
 
 Bag *bag_new() {
     Bag *self = rhc_calloc(sizeof *self);
@@ -37,6 +39,8 @@ void bag_update(Bag *self, float dtime, const Camera_s *cam) {
     memset(self->L.pressed, 0, sizeof self->L.pressed);
     
     // todo, set poses
+    
+    
 }
 
 void bag_render(const Bag *self, const mat4 *cam_mat) {
@@ -46,7 +50,16 @@ void bag_render(const Bag *self, const mat4 *cam_mat) {
 
 void bag_pointer_event(Bag *self, ePointer_s pointer) {
     for(int i=0; i<8; i++) {
-        if(button_clicked(&self->L.gifts.rects[i], pointer))
+        if(pointer.action == E_POINTER_DOWN 
+                && self->L.gifts.rects[i].color.r > 0.9
+                && u_pose_aa_contains(self->L.gifts.rects[i].pose, pointer.pos.xy)) {
+            self->L.gifts.rects[i].color = color_pressed;
             self->L.pressed[i] = true;
+        }
+        
+        if(pointer.action == E_POINTER_UP
+                || !u_pose_aa_contains(self->L.gifts.rects[i].pose, pointer.pos.xy)) {
+            self->L.gifts.rects[i].color = vec4_set(1);
+        }
     }
 }
