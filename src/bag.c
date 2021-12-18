@@ -20,7 +20,7 @@ Bag *bag_new() {
     Bag *self = rhc_calloc(sizeof *self);
     
     
-    self->L.bg = ro_single_new(r_texture_new_file(4, 1, "res/bag.png"));
+    self->L.bg = ro_single_new(r_texture_new_file(1, 1, "res/bag.png"));
     
     self->L.gifts = ro_batch_new(8, r_texture_new_file(4, 2, "res/gifts.png"));
     
@@ -59,6 +59,7 @@ void bag_update(Bag *self, float dtime, const Camera_s *cam) {
                 BACKGROUND_SIZE, BACKGROUND_SIZE);
     }
     
+     
     
     // gifts
     for(int i=0; i<8; i++) {
@@ -67,11 +68,11 @@ void bag_update(Bag *self, float dtime, const Camera_s *cam) {
         if(camera_is_portrait_mode(cam)) {
             self->L.gifts.rects[i].pose = u_pose_new(
                     -60 + c*40,
-                    cam->RO.bottom - 20 - r*40,
+                    cam->RO.bottom - 30 - r*40,
                     32, 32);
         } else {
             self->L.gifts.rects[i].pose = u_pose_new(
-                    cam->RO.right + 20 + r*20,
+                    cam->RO.right + 30 + r*40,
                     -60 + c*40,
                     32, 32);
         }
