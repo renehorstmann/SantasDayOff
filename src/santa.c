@@ -79,7 +79,7 @@ void santa_update(Santa *self, float dtime) {
             -128, 64);
             
     self->L.particles_time+=dtime*PARTICLES_PS;
-    float particles = sca_floor(self->L.particles_time);
+    float particles = (int) self->L.particles_time;
     self->L.particles_time -= particles;
     emit_particles(self, (int) particles);
 }

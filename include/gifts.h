@@ -13,6 +13,7 @@ typedef struct {
         RoBatch ro;
         float speed[GIFTS_MAX];
         int last;
+        float particles_time;
     } L;
 } Gifts;
 
