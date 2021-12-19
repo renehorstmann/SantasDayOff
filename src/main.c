@@ -13,6 +13,8 @@
 static struct {
     Camera_s camera;
     
+    PixelParticles *particles;
+    
     Background *bg;
     Santa *santa;
     Bag *bag;
@@ -36,14 +38,16 @@ static void init(eSimple *simple, ivec2 window_size) {
     
     // init systems
     L.camera = camera_new();
+    
+    L.particles = pixelparticles_new();
 
     L.bg = background_new(simple->render, 1024*64, 1024, true, false, "res/bg.png");
     
-    L.santa = santa_new(NULL);
+    L.santa = santa_new(L.particles);
     
     L.bag = bag_new();
     
-    L.gifts = gifts_new(NULL);
+    L.gifts = gifts_new(L.particles);
 }
 
 
@@ -51,6 +55,8 @@ static void init(eSimple *simple, ivec2 window_size) {
 static void update(eSimple *simple, ivec2 window_size, float dtime) {
     // simulate
     camera_update(&L.camera, window_size);
+    
+    pixelparticles_update(L.particles, dtime);
     
     santa_update(L.santa, dtime);
     
@@ -80,6 +86,8 @@ static void render(eSimple *simple, ivec2 window_size, float dtime) {
     mat4 *hudcam_mat = &L.camera.matrices_p;
 
     background_render(L.bg, &L.camera);
+    
+    pixelparticles_render(L.particles, camera_mat);
     
     gifts_render(L.gifts, camera_mat);
     

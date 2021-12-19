@@ -7,6 +7,8 @@
 typedef struct {
     PixelParticles *particles_ref;
 
+    float speed;
+
     struct {
         vec2 center_pos;
         vec2 gift_pos;
@@ -15,6 +17,7 @@ typedef struct {
     struct {
         RoSingle ro;
         float time;
+        float particles_time;
     } L;
 } Santa;
 
