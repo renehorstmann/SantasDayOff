@@ -58,7 +58,6 @@ static void init(eSimple *simple, ivec2 window_size) {
 // this functions is called either each frame or at a specific update/s time
 static void update(eSimple *simple, ivec2 window_size, float dtime) {
     // simulate
-    camera_update(&L.camera, window_size);
     
     pixelparticles_update(L.particles, dtime);
     
@@ -66,6 +65,7 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
     
     bag_update(L.bag, dtime, &L.camera);
     
+    L.gifts->in.start_speed = -2*L.santa->speed;
     gifts_update(L.gifts, dtime);
     
     
@@ -88,6 +88,8 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
 
 // this function is calles each frame to render stuff, dtime is the time between frames
 static void render(eSimple *simple, ivec2 window_size, float dtime) {
+    camera_update(&L.camera, window_size);
+    
     mat4 *camera_mat = &L.camera.matrices_main.vp;
     mat4 *hudcam_mat = &L.camera.matrices_p;
 

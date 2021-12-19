@@ -7,8 +7,7 @@
 
 #include "gifts.h"
 
-#define START_SPEED -64
-#define ACC -100
+#define ACC -200
 
 
 #define PARTICLES_PS 96
@@ -111,7 +110,7 @@ void gifts_add(Gifts *self, int id, vec2 start) {
         self->L.last = 0;
         
     int idx = self->L.last;
-    self->L.speed[idx] = START_SPEED;
+    self->L.speed[idx] = self->in.start_speed;
     u_pose_set_xy(&self->L.ro.rects[idx].pose, start.x, start.y);
     self->L.ro.rects[idx].sprite = (vec2) {{ id%4, id/4 }};
     self->L.ro.rects[idx].color.rgb = vec3_random_range(0.75, 1.0);

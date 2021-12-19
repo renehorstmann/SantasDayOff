@@ -10,6 +10,10 @@ typedef struct {
     PixelParticles *particles_ref;
     
     struct {
+        float start_speed;
+    } in;
+    
+    struct {
         RoBatch ro;
         float speed[GIFTS_MAX];
         int last;
