@@ -6,6 +6,7 @@
 
 #include "camera.h"
 #include "background.h"
+#include "snow.h"
 #include "santa.h"
 #include "bag.h"
 #include "gifts.h"
@@ -16,6 +17,7 @@ static struct {
     PixelParticles *particles;
     
     Background *bg;
+    Snow *snow;
     Santa *santa;
     Bag *bag;
     Gifts *gifts;
@@ -42,6 +44,8 @@ static void init(eSimple *simple, ivec2 window_size) {
     L.particles = pixelparticles_new();
 
     L.bg = background_new(simple->render, 1024*64, 1024, true, false, "res/bg.png");
+    
+    L.snow = snow_new();
     
     L.santa = santa_new(L.particles);
     
@@ -77,6 +81,8 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
         }
     }
     
+    snow_update(L.snow, dtime, pos - camera_width(&L.camera)/2, pos + camera_width(&L.camera)/2, L.camera.RO.top);
+    
 }
 
 
@@ -92,6 +98,8 @@ static void render(eSimple *simple, ivec2 window_size, float dtime) {
     gifts_render(L.gifts, camera_mat);
     
     santa_render(L.santa, camera_mat);
+    
+    snow_render(L.snow, camera_mat);
     
     bag_render(L.bag, hudcam_mat);
     

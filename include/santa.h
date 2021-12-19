@@ -8,6 +8,7 @@ typedef struct {
     PixelParticles *particles_ref;
 
     float speed;
+    float x;
 
     struct {
         vec2 center_pos;

@@ -8,7 +8,11 @@
 
 #include "santa.h"
 
+#include "e/gui.h"
+
 #define ANIMATION_FPS 8
+
+#define START_SPEED 129
 
 #define PARTICLES_PS 48
 #define PARTICLES_SIZE 2.0
@@ -45,7 +49,7 @@ Santa *santa_new(PixelParticles *particles) {
     
     self->particles_ref = particles;
     
-    self->speed = 32;
+    self->speed = START_SPEED;
     
     self->L.ro = ro_single_new(r_texture_new_file(4, 1, "res/santa.png"));
     
@@ -69,19 +73,21 @@ void santa_update(Santa *self, float dtime) {
     
     self->L.ro.rect.sprite.x = frame;
     
-    float x = self->L.time * self->speed;
-    x += 0;
+    self->x += dtime * self->speed;
     
-    self->out.center_pos = (vec2) {{x, 200}};
-    self->out.gift_pos = (vec2) {{x-32, 200-8}};
+    self->out.center_pos = (vec2) {{self->x, 200}};
+    self->out.gift_pos = (vec2) {{self->x-32, 200-8}};
     
-    self->L.ro.rect.pose = u_pose_new(x, 200,
+    self->L.ro.rect.pose = u_pose_new(self->x, 200,
             -128, 64);
             
     self->L.particles_time+=dtime*PARTICLES_PS;
     float particles = (int) self->L.particles_time;
     self->L.particles_time -= particles;
     emit_particles(self, (int) particles);
+    
+    
+    e_gui_float("speed", &self->speed, 0, 512);
 }
 
 void santa_render(const Santa *self, const mat4 *cam_mat) {

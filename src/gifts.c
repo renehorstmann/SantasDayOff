@@ -97,7 +97,7 @@ void gifts_update(Gifts *self, float dtime) {
         vec2 pos = u_pose_get_xy(self->L.ro.rects[i].pose);
         int id = self->L.ro.rects[i].sprite.x + self->L.ro.rects[i].sprite.y*4;
         
-        emit_particles(self, (int) particles, id, pos);
+        //emit_particles(self, (int) particles, id, pos);
     }
 }
 
