@@ -10,6 +10,10 @@
 
 
 #define KILL_LEFT -256  // <= in.santa_oos + KILL_LEFT
+
+#define GIFT_LEFT_DIST -96
+#define GIFT_RIGHT_DIST 32
+
 #define MIN_DIST 150
 #define MAX_DIST 200
 
@@ -110,7 +114,25 @@ void houses_update(Houses *self, float dtime) {
             self->L.last = 0;
     }
     
+    float next_x = u_pose_get_x(self->L.ro.rects[self->L.next].pose);
     
+    if(next_x < self->in.santa_pos + GIFT_LEFT_DIST) {
+         // turn off lights
+        self->L.ro.rects[self->L.next].sprite.x = 1;
+        
+        // todo missing score
+        
+        self->L.next++;
+        if(self->L.next>=HOUSES_MAX)
+            self->L.next = 0;
+    } else if(next_x < self->in.santa_pos + GIFT_RIGHT_DIST) {
+        // turn on lights
+        self->L.ro.rects[self->L.next].sprite.x = 0;
+        
+        // todo check for gifts
+        
+        
+    }
 }
 
 void houses_render(const Houses *self, const mat4 *cam_mat) {

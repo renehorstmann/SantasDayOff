@@ -73,7 +73,7 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
     gifts_update(L.gifts, dtime);
     
     
-    float pos = L.santa->out.center_pos.x;
+    float pos = L.santa->out.gift_pos.x;
     pos += 0;
     
     
