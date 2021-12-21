@@ -4,7 +4,7 @@
 #include "r/ro_types.h"
 #include "pixelparticles.h"
 
-#define HOUSES_MAX 32
+#define HOUSES_MAX 64
 
 typedef struct {
     PixelParticles *particles_ref;

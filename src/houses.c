@@ -9,9 +9,9 @@
 #include "houses.h"
 
 
-#define KILL_LEFT -64
-#define MIN_DIST 128
-#define MAX_DIST 256
+#define KILL_LEFT -256  // <= in.santa_oos + KILL_LEFT
+#define MIN_DIST 150
+#define MAX_DIST 200
 
 // returns x
 static float renew_house(Houses *self, int renew_idx, float farest_x_pos) {
@@ -98,6 +98,17 @@ void houses_kill(Houses **self_ptr) {
 }
 
 void houses_update(Houses *self, float dtime) {
+    float last_x = u_pose_get_x(self->L.ro.rects[self->L.last].pose);
+    if(last_x <= self->in.santa_pos + KILL_LEFT) {
+        int far_idx = self->L.last-1;
+        if(far_idx < 0)
+            far_idx = HOUSES_MAX-1;
+        float far_x = u_pose_get_x(self->L.ro.rects[far_idx].pose);
+        renew_house(self, self->L.last, far_x);
+        self->L.last++;
+        if(self->L.last>=HOUSES_MAX)
+            self->L.last = 0;
+    }
     
     
 }
