@@ -69,12 +69,8 @@ This will let Emscripten run in fullscreen and display an error text, if the app
 
 ## Todo
 - pixelart
-  - gifts mini version (gimp?)
-  - sleigh and reindeers
-  - houses
-  - wishbubbles
   - bag
-  - background
+  - santa o meter
 
 
 

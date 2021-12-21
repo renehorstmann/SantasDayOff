@@ -88,7 +88,7 @@ void santa_update(Santa *self, float dtime) {
     emit_particles(self, (int) particles);
     
     
-    e_gui_float("speed", &self->speed, 0, 512);
+    e_gui_float("speed", &self->speed, 0, 256);
 }
 
 void santa_render(const Santa *self, const mat4 *cam_mat) {
