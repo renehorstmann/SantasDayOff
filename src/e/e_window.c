@@ -185,7 +185,11 @@ eWindow *e_window_new(const char *title) {
     singleton.window = SDL_CreateWindow(title,
             SDL_WINDOWPOS_UNDEFINED,
             SDL_WINDOWPOS_UNDEFINED,
+#ifdef OPTION_GLES
+            1080, 1080,
+#else
             640, 480,
+#endif
             SDL_WINDOW_OPENGL 
             | SDL_WINDOW_RESIZABLE
             );
