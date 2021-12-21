@@ -13,6 +13,8 @@
 #define PARTICLES_PS 96
 #define PARTICLES_SIZE 2.0
 
+#define GROUND 20
+
 
 static void emit_particles(Gifts *self, int n, int id, vec2 pos) {
     if(n>128) n = 128;
@@ -86,8 +88,8 @@ void gifts_update(Gifts *self, float dtime) {
         float y = u_pose_get_y(self->L.ro.rects[i].pose);
         self->L.speed[i] += ACC*dtime;
         y += self->L.speed[i] *dtime;
-        if(y <= 0) {
-            y = 0;
+        if(y <= GROUND) {
+            y = GROUND;
             self->L.speed[i] = NAN;
         }
         

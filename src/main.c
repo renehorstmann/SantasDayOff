@@ -4,6 +4,7 @@
 #include "r/ro_text.h"
 #include "u/pose.h"
 
+#include "mathc/sca/float.h"
 #include "camera.h"
 #include "background.h"
 #include "snow.h"
@@ -76,8 +77,9 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
     float pos = L.santa->out.center_pos.x;
     pos += 0;
     
-    
-    camera_set_pos(&L.camera, pos, 100);
+    float x_min = -L.camera.RO.left;
+    float y = -L.camera.RO.bottom;
+    camera_set_pos(&L.camera, sca_max(pos, x_min), y);
     
     for(int i=0; i<8; i++) {
         if(L.bag->out.pressed[i]) {

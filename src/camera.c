@@ -124,7 +124,7 @@ void camera_set_pos(Camera_s *self, float x, float y) {
     float cx = x + self->RO.left;
     float cy = y + self->RO.bottom;
     
-    cx = x; cy = y;
+    // cx = x; cy = y;
     
     x = floorf(x * self->RO.scale) / self->RO.scale;
     y = floorf(y * self->RO.scale) / self->RO.scale;

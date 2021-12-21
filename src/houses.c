@@ -17,6 +17,8 @@
 #define MIN_DIST 150
 #define MAX_DIST 200
 
+#define GROUND 8
+
 // returns x
 static float renew_house(Houses *self, int renew_idx, float farest_x_pos) {
     float x = farest_x_pos;
@@ -25,7 +27,7 @@ static float renew_house(Houses *self, int renew_idx, float farest_x_pos) {
     rRect_s *house = &self->L.ro.rects[renew_idx];
     rRect_s *gifts = &self->L.gifts.rects[renew_idx*3];
     
-    house->pose = u_pose_new(x, 64, 128, 128);
+    house->pose = u_pose_new(x, 64+ GROUND, 128, 128);
     house->sprite.x = 1;
     house->color.rgb = vec3_random_range(0.8, 1.0);
     
@@ -34,7 +36,7 @@ static float renew_house(Houses *self, int renew_idx, float farest_x_pos) {
     ro_text_set_text(&self->L.number[renew_idx], buf);
     self->L.number[renew_idx].pose = u_pose_new(
             x - 64+2, 
-            32, 
+            32 + GROUND, 
             1, 1);
     
     int gnum = 1 + rand()%3;
@@ -51,7 +53,7 @@ static float renew_house(Houses *self, int renew_idx, float farest_x_pos) {
             gx = x+16;
             gy = 32;
         }
-        gifts[i].pose = u_pose_new(gx, gy, 16, 16);
+        gifts[i].pose = u_pose_new(gx, gy + GROUND, 16, 16);
         
         int gid = rand()%8;
         gifts[i].sprite.x = gid%4;
