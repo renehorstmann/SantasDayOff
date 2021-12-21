@@ -10,7 +10,7 @@
 
 #define SPEED 100
 #define ANIMATION_FPS 8
-#define BACKGROUND_SIZE 512*2
+#define BACKGROUND_SIZE 512
 
 
 
@@ -67,16 +67,16 @@ void bag_update(Bag *self, float dtime, const Camera_s *cam) {
         int r = i/4;
         if(camera_is_portrait_mode(cam)) {
             self->L.gifts.rects[i].pose = u_pose_new(
-                    -120 + c*80,
-                    cam->RO.full_bottom + 160 - r*80
+                    -60 + c*40,
+                    cam->RO.full_bottom + 80 - r*40
                     - (self->L.gifts.rects[i].color.r<0.9? 4 : 0),
-                    64, 64);
+                    32, 32);
         } else {
             self->L.gifts.rects[i].pose = u_pose_new(
-                    cam->RO.full_right - 160 + r*80
+                    cam->RO.full_right - 80 + r*40
                     + (self->L.gifts.rects[i].color.r<0.9? 4 : 0),
-                    -120 + c*80,
-                    64, 64);
+                    -60 + c*40,
+                    32, 32);
         }
     }
 }

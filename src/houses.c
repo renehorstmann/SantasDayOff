@@ -30,10 +30,10 @@ static float renew_house(Houses *self, int renew_idx, float farest_x_pos) {
     house->color.rgb = vec3_random_range(0.8, 1.0);
     
     char buf[4];
-    snprintf(buf, 4, "%-3i", ++self->L.farest_number);
+    snprintf(buf, 4, "%3i", ++self->L.farest_number);
     ro_text_set_text(&self->L.number[renew_idx], buf);
     self->L.number[renew_idx].pose = u_pose_new(
-            x - 64+8, 
+            x - 64+2, 
             32, 
             1, 1);
     

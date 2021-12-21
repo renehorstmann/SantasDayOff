@@ -11,8 +11,8 @@
 #include "mathc/types/int.h"
 
 
-#define CAMERA_SIZE 360 // *4=720; *6=1080; *8=1440
-#define CAMERA_SCREEN_WEIGHT (3.0/5.0)
+#define CAMERA_SIZE 240 // *4=720; *6=1080; *8=1440
+#define CAMERA_SCREEN_WEIGHT (4.0/5.0)
 #define CAMERA_BACKGROUNDS 6
 
 struct CameraMatrices_s {

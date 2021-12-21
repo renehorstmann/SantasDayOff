@@ -73,11 +73,11 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
     gifts_update(L.gifts, dtime);
     
     
-    float pos = L.santa->out.gift_pos.x;
+    float pos = L.santa->out.center_pos.x;
     pos += 0;
     
     
-    camera_set_pos(&L.camera, pos, 0);
+    camera_set_pos(&L.camera, pos, 100);
     
     for(int i=0; i<8; i++) {
         if(L.bag->out.pressed[i]) {
