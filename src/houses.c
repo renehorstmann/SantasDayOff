@@ -9,7 +9,7 @@
 #include "houses.h"
 
 
-#define KILL_LEFT -256  // <= in.santa_oos + KILL_LEFT
+#define KILL_LEFT -512  // <= in.santa_oos + KILL_LEFT
 
 #define GIFT_LEFT_DIST -96
 #define GIFT_RIGHT_DIST 32
