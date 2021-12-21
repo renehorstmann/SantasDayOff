@@ -89,7 +89,7 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
     memcpy(L.houses->in.gifts, L.bag->out.pressed, sizeof L.houses->in.gifts);
     houses_update(L.houses, dtime);
     
-    snow_update(L.snow, dtime, pos - camera_width(&L.camera)/2, pos + camera_width(&L.camera)/2, L.camera.RO.top);
+    snow_update(L.snow, dtime, pos - camera_width(&L.camera)/2, pos + camera_width(&L.camera)/2, L.camera.RO.top + 100);
     
 }
 
