@@ -75,7 +75,7 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
     
     
     float pos = L.santa->out.center_pos.x;
-    pos += 0;
+    pos += 120-L.camera.RO.right;
     
     float x_min = -L.camera.RO.left;
     float y = -L.camera.RO.bottom;
@@ -91,7 +91,7 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
     memcpy(L.houses->in.gifts, L.bag->out.pressed, sizeof L.houses->in.gifts);
     houses_update(L.houses, dtime);
     
-    snow_update(L.snow, dtime, pos - camera_width(&L.camera)/2, pos + camera_width(&L.camera)/2, L.camera.RO.top + 100);
+    snow_update(L.snow, dtime, pos - camera_width(&L.camera)/2, pos + camera_width(&L.camera)/2, L.camera.RO.top + y);
     
 }
 

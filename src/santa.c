@@ -12,7 +12,7 @@
 
 #define ANIMATION_FPS 8
 
-#define START_SPEED 129
+#define START_SPEED 32
 
 #define PARTICLES_PS 48
 #define PARTICLES_SIZE 2.0
@@ -49,6 +49,7 @@ Santa *santa_new(PixelParticles *particles) {
     
     self->particles_ref = particles;
     
+    self->x = 0;
     self->speed = START_SPEED;
     
     self->L.ro = ro_single_new(r_texture_new_file(4, 1, "res/santa.png"));
