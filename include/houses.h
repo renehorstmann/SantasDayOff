@@ -25,6 +25,7 @@ typedef struct {
         RoText number[HOUSES_MAX];
         int last; // wait to reset
         int next; // next or current for santa
+        int farest_number;
         float particles_time;
     } L;
 } Houses;
