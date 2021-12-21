@@ -10,6 +10,7 @@
 #include "santa.h"
 #include "bag.h"
 #include "gifts.h"
+#include "houses.h"
 
 static struct {
     Camera_s camera;
@@ -21,6 +22,7 @@ static struct {
     Santa *santa;
     Bag *bag;
     Gifts *gifts;
+    Houses *houses;
 } L;
 
 
@@ -52,6 +54,8 @@ static void init(eSimple *simple, ivec2 window_size) {
     L.bag = bag_new();
     
     L.gifts = gifts_new(L.particles);
+    
+    L.houses = houses_new(L.particles);
 }
 
 
@@ -81,6 +85,10 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
         }
     }
     
+    L.houses->in.santa_pos = L.santa->out.center_pos.x;
+    memcpy(L.houses->in.gifts, L.bag->out.pressed, sizeof L.houses->in.gifts);
+    houses_update(L.houses, dtime);
+    
     snow_update(L.snow, dtime, pos - camera_width(&L.camera)/2, pos + camera_width(&L.camera)/2, L.camera.RO.top);
     
 }
@@ -96,6 +104,8 @@ static void render(eSimple *simple, ivec2 window_size, float dtime) {
     background_render(L.bg, &L.camera);
     
     pixelparticles_render(L.particles, camera_mat);
+    
+    houses_render(L.houses, camera_mat);
     
     gifts_render(L.gifts, camera_mat);
     
