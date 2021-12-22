@@ -8,6 +8,7 @@
 #include "camera.h"
 #include "background.h"
 #include "snow.h"
+#include "login.h"
 #include "game.h"
 
 
@@ -19,7 +20,10 @@ static struct {
     Background *bg;
     Snow *snow;
     
+    Login *login;
     Game *game;
+    
+    char name[HIGHSCORE_NAME_MAX_LENGTH+1];
 } L;
 
 
@@ -27,6 +31,9 @@ static void pointer_event(ePointer_s pointer, void *ud) {
      // hud pointer.pos in hud coords
     ePointer_s hud_pointer = pointer;
     hud_pointer.pos = mat4_mul_vec(L.camera.matrices_p_inv, pointer.pos);
+    
+    if(L.login)
+        login_pointer_event(L.login, hud_pointer);
     
     if(L.game)
         game_pointer_event(L.game, hud_pointer);
@@ -47,7 +54,7 @@ static void init(eSimple *simple, ivec2 window_size) {
     
     L.snow = snow_new();
     
-    L.game = game_new(L.particles, "Wolfgang");
+    L.login = login_new(simple->input);
 }
 
 
@@ -59,12 +66,27 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
     
     
     float pos = u_pose_get_x(L.camera.matrices_main.v);
-    float y = -L.camera.RO.bottom;
+    float y;
+    
+    if(L.login) {
+        y = 64-L.camera.RO.full_bottom;
+        camera_set_pos(&L.camera, -L.camera.RO.full_left, y);
+        login_update(L.login, window_size, dtime);   
+         
+        if(L.login->out.done) {
+            strcpy(L.name, L.login->out.name);
+            login_kill(&L.login);
+            L.game = game_new(L.particles, L.name);
+        }
+    }
+    
+    if(L.game) {
+         y = -L.camera.RO.bottom;
+        game_update(L.game, dtime, &L.camera);  
+    }
+    
     
     snow_update(L.snow, dtime, pos - camera_width(&L.camera)/2, pos + camera_width(&L.camera)/2, L.camera.RO.top + y);
-    
-    game_update(L.game, dtime, &L.camera);
-    
 }
 
 
@@ -79,11 +101,16 @@ static void render(eSimple *simple, ivec2 window_size, float dtime) {
     
     pixelparticles_render(L.particles, camera_mat);
     
-    game_render_main(L.game, camera_mat);
+    if(L.login)
+        login_render(L.login, hudcam_mat);
+    
+    if(L.game)
+        game_render_main(L.game, camera_mat);
     
     snow_render(L.snow, camera_mat);
     
-    game_render_hud(L.game, hudcam_mat);
+    if(L.game)
+        game_render_hud(L.game, hudcam_mat);
     
     // uncomment to clone the current framebuffer into r_render_get_framebuffer_tex
     // r_render_blit_framebuffer(simple->render, window_size);

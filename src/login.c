@@ -33,44 +33,27 @@ static void name_copy(Login *self, const char *src) {
     str_as_c(self->out.name, out);
 }
 
-static void pointer_callback(ePointer_s pointer, void *user_data) {
-    Login *self = user_data;
+//
+// public
+//
 
-    pointer.pos = mat4_mul_vec(self->cam_ref->matrices_main.v_p_inv, pointer.pos);
-
-    if (button_clicked(&self->L.play.rect, pointer)) {
-        bool saved = e_io_savestate_write("name.txt", strc(self->out.name), true);
-        log_info("login: play, (saved=%i): <%s>", saved, self->out.name);
-        self->out.done = true;
-    }
-
-    if (pointer.action == E_POINTER_DOWN
-        && u_pose_aa_contains(self->L.name_click_box, pointer.pos.xy)) {
-        log_info("login: rename");
-        start_textinput(self);
-    }
-}
-
-Login *login_new(eInput *input, const Camera_s *cam) {
+Login *login_new(eInput *input) {
     Login *self = rhc_calloc(sizeof *self);
 
     self->input_ref = input;
-    self->cam_ref = cam;
 
-    e_input_register_pointer_event(input, pointer_callback, self);
-
-    self->L.title = ro_text_new_font55(5);
-    ro_text_set_text(&self->L.title, "SWARM");
-
-    self->L.yourname = ro_text_new_font85(10);
-    ro_text_set_text(&self->L.yourname, "Your name:");
-    ro_text_set_color(&self->L.yourname, (vec4) {{0, 0, 0, 0.5}});
-
+    self->L.letter = ro_single_new(r_texture_new_file(1, 1, "res/letter.png"));
+    self->L.letter.rect.pose = u_pose_new(0, 0, 180, 180);
+    
+    self->L.text = ro_text_new_font85(256);
+    ro_text_set_color(&self->L.text, R_COLOR_BLACK);
+    ro_text_set_text(&self->L.text, "Dear\n\nI want to take a day off.\n\nWill you take my job\n    for that day?\n\nSincerely Santa Claus.\n\nPS: You have to\n    accept the cookies!");
+    
     self->L.name = ro_text_new_font85(LOGIN_NAME_MAX_LENGTH);
-    ro_text_set_color(&self->L.name, R_COLOR_BLACK);
-
+    ro_text_set_color(&self->L.name, (vec4) {{0.1, 0.1, 0.8, 1.0}});
+    
     self->L.play = ro_single_new(r_texture_new_file(2, 1, "res/play.png"));
-
+    
     // init name
     String name = e_io_savestate_read("name.txt", true);
     if (string_valid(name) && name_valid(name.data)) {
@@ -82,16 +65,16 @@ Login *login_new(eInput *input, const Camera_s *cam) {
     string_kill(&name);
 
     // poses
-    self->L.title.pose = u_pose_new(-80, 80, 4, 4);
-    self->L.yourname.pose = u_pose_new(-60, 40, 2, 2);
-    self->L.name.pose = u_pose_new(-60, 10, 1.5, 1.5);
+    self->L.text.pose = u_pose_new_aa(-72, 80, 1, 1);
+    self->L.name.pose = u_pose_new(-40, 80, 1, 1);
+    self->L.play.rect.pose = u_pose_new(0, -100, 96, 16);
 
     // box around yourname and name text fields
-    self->L.name_click_box = u_pose_new_aa(-60, 40,
-                                           LOGIN_NAME_MAX_LENGTH * self->L.name.offset.x,
-                                           30 + self->L.name.offset.y);
-    self->L.play.rect.pose = u_pose_new(0, -44, 64, 64);
-
+    self->L.name_click_box = u_pose_new_aa(-60, 100,
+                                   
+                   40+ LOGIN_NAME_MAX_LENGTH * self->L.name.offset.x,
+                                           40 + self->L.name.offset.y);
+    
     return self;
 }
 
@@ -99,9 +82,8 @@ void login_kill(Login **self_ptr) {
     Login *self = *self_ptr;
     if (!self)
         return;
-    e_input_unregister_pointer_event(self->input_ref, pointer_callback);
-    ro_text_kill(&self->L.title);
-    ro_text_kill(&self->L.yourname);
+    ro_single_kill(&self->L.letter);
+    ro_text_kill(&self->L.text);
     ro_text_kill(&self->L.name);
     ro_single_kill(&self->L.play);
     rhc_free(self);
@@ -128,13 +110,27 @@ void login_update(Login *self, ivec2 window_size, float dtime) {
 }
 
 void login_render(const Login *self, const mat4 *hud_cam_mat) {
-    ro_text_render(&self->L.title, hud_cam_mat);
+    ro_single_render(&self->L.letter, hud_cam_mat);
+    ro_text_render(&self->L.text, hud_cam_mat);
 
     if(self->L.textinput) {
         textinput_render(self->L.textinput);
     } else {
-        ro_text_render(&self->L.yourname, hud_cam_mat);
         ro_text_render(&self->L.name, hud_cam_mat);
         ro_single_render(&self->L.play, hud_cam_mat);
+    }
+}
+
+void login_pointer_event(Login *self, ePointer_s pointer) {
+    if (button_clicked(&self->L.play.rect, pointer)) {
+        bool saved = e_io_savestate_write("name.txt", strc(self->out.name), true);
+        log_info("login: play, (saved=%i): <%s>", saved, self->out.name);
+        self->out.done = true;
+    }
+
+    if (pointer.action == E_POINTER_DOWN
+        && u_pose_aa_contains(self->L.name_click_box, pointer.pos.xy)) {
+        log_info("login: rename");
+        start_textinput(self);
     }
 }

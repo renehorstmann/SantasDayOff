@@ -70,9 +70,7 @@ This will let Emscripten run in fullscreen and display an error text, if the app
 ## Todo
 - pixelart
   - retry btn
-  - login fullscreen
   - play btn (accept job)
-- login page letter
 - sounds
 - favicon  
 
