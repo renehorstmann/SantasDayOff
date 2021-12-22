@@ -9,6 +9,8 @@ typedef struct {
 
     float speed;
     float x;
+    
+    bool game_running;
 
     struct {
         vec2 center_pos;

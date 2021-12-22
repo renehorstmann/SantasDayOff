@@ -104,6 +104,10 @@ void houses_kill(Houses **self_ptr) {
 }
 
 void houses_update(Houses *self, float dtime) {
+    self->out.missed_gifts = 0;
+    self->out.right_gifts = 0;
+    self->out.wrong_gifts = 0;
+    
     float last_x = u_pose_get_x(self->L.ro.rects[self->L.last].pose);
     if(last_x <= self->in.santa_pos + KILL_LEFT) {
         int far_idx = self->L.last-1;
@@ -118,22 +122,58 @@ void houses_update(Houses *self, float dtime) {
     
     float next_x = u_pose_get_x(self->L.ro.rects[self->L.next].pose);
     
+    bool lights_on = false;
+    
     if(next_x < self->in.santa_pos + GIFT_LEFT_DIST) {
          // turn off lights
         self->L.ro.rects[self->L.next].sprite.x = 1;
         
         // todo missing score
+        for(int i=0; i<3; i++) {
+            int gi = i + self->L.next*3;
+            if(!isnan(self->L.gifts.rects[gi].pose.m00))
+                self->out.missed_gifts++;
+        }
         
         self->L.next++;
         if(self->L.next>=HOUSES_MAX)
             self->L.next = 0;
     } else if(next_x < self->in.santa_pos + GIFT_RIGHT_DIST) {
+        lights_on = true;
+        
         // turn on lights
         self->L.ro.rects[self->L.next].sprite.x = 0;
         
         // todo check for gifts
-        
-        
+        for(int i=0;i<8;i++) {
+            if(!self->in.gifts[i])
+                continue;
+            bool gotcha = false;
+            for(int j=0;j<3;j++) {
+                int gi = j + self->L.next*3;
+                if(isnan(self->L.gifts.rects[gi].pose.m00))
+                    continue;
+                int gs = self->L.gifts.rects[gi].sprite.x 
+                        + self->L.gifts.rects[gi].sprite.y * 4;
+                if(gs == i) {
+                    self->L.gifts.rects[gi].pose.m00 = NAN;
+                    self->out.right_gifts++;
+                    gotcha = true;
+                    break;
+                }
+            }
+            if(!gotcha) {
+                self->out.wrong_gifts++;
+            }
+        }
+    }
+    
+    
+    if(!lights_on) {
+        for(int i=0; i<8; i++) {
+            if(self->in.gifts[i])
+                self->out.wrong_gifts++;
+        }
     }
 }
 

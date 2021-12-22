@@ -17,6 +17,7 @@ typedef struct {
     struct {
         int missed_gifts;
         int right_gifts;
+        int wrong_gifts;
     } out;
     
     struct {
