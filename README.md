@@ -68,9 +68,6 @@ This will let Emscripten run in fullscreen and display an error text, if the app
 
 
 ## Todo
-- pixelart
-  - retry btn
-  - play btn (accept job)
 - sounds
 - favicon  
 
