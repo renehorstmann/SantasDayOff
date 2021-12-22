@@ -10,7 +10,7 @@
 
 #define METER_SHOW 0.25
 
-#define TEXT_SIZE 2.0
+#define TEXT_SIZE 3.0
 
 
 Fired *fired_new(const char *name_ref) {
@@ -53,7 +53,7 @@ void fired_update(Fired *self, float dtime, const Camera_s *cam) {
     if (self->in.meter>0 && self->in.meter<METER_SHOW) {
         sprintf(buf, "Warning!");
     } else if(self->in.meter <= 0) {
-        sprintf(buf, "You are fired!");
+        sprintf(buf, "You are\n fired!");
         
         if(!self->showscore) {
             log_info("fired: starting showscore");
@@ -69,7 +69,7 @@ void fired_update(Fired *self, float dtime, const Camera_s *cam) {
 
     self->L.ro.rect.color.a = sca_mix(0.5, 0.25, self->in.meter/METER_SHOW);
 
-    self->L.btn.rect.pose = u_pose_new(0, -20-64, 64, 64);
+    self->L.btn.rect.pose = u_pose_new(0, cam->RO.top - 104, 64, 64);
 
     self->L.credits.pose = u_pose_new_aa(
             cam->RO.left + 10, 
@@ -77,7 +77,7 @@ void fired_update(Fired *self, float dtime, const Camera_s *cam) {
             1, 1);
     
     if(self->showscore) {
-        self->showscore->in.pos = (vec2) {{-115, cam->RO.top - 60}};
+        self->showscore->in.pos = (vec2) {{-115, cam->RO.top - 144}};
         showscore_update(self->showscore, dtime);
     }
 }
