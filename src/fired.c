@@ -69,7 +69,7 @@ void fired_update(Fired *self, float dtime, const Camera_s *cam) {
 
     self->L.ro.rect.color.a = sca_mix(0.5, 0.25, self->in.meter/METER_SHOW);
 
-    self->L.btn.rect.pose = u_pose_new(0, cam->RO.top - 104, 64, 64);
+    self->L.btn.rect.pose = u_pose_new(0, cam->RO.top - 104, 2*96, 2*16);
 
     self->L.credits.pose = u_pose_new_aa(
             cam->RO.left + 10, 
@@ -77,7 +77,7 @@ void fired_update(Fired *self, float dtime, const Camera_s *cam) {
             1, 1);
     
     if(self->showscore) {
-        self->showscore->in.pos = (vec2) {{-115, cam->RO.top - 144}};
+        self->showscore->in.pos = (vec2) {{-115, cam->RO.top - 136}};
         showscore_update(self->showscore, dtime);
     }
 }

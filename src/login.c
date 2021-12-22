@@ -43,11 +43,18 @@ Login *login_new(eInput *input) {
     self->input_ref = input;
 
     self->L.letter = ro_single_new(r_texture_new_file(1, 1, "res/letter.png"));
-    self->L.letter.rect.pose = u_pose_new(0, 0, 180, 180);
+ 
     
     self->L.text = ro_text_new_font85(256);
     ro_text_set_color(&self->L.text, R_COLOR_BLACK);
-    ro_text_set_text(&self->L.text, "Dear\n\nI want to take a day off.\n\nWill you take my job\n    for that day?\n\nSincerely Santa Claus.\n\nPS: You have to\n    accept the cookies!");
+    ro_text_set_text(&self->L.text, 
+            "Dear\n\n"
+            "I want to take a day off.\n\n"
+            "Will you take my job\n"
+            "       for that day?\n\n"
+            "Sincerely Santa Claus.\n\n"
+            "PS: You have to\n"
+            "    accept the cookies!");
     
     self->L.name = ro_text_new_font85(LOGIN_NAME_MAX_LENGTH);
     ro_text_set_color(&self->L.name, (vec4) {{0.1, 0.1, 0.8, 1.0}});
@@ -65,12 +72,13 @@ Login *login_new(eInput *input) {
     string_kill(&name);
 
     // poses
-    self->L.text.pose = u_pose_new_aa(-72, 80, 1, 1);
-    self->L.name.pose = u_pose_new(-40, 80, 1, 1);
-    self->L.play.rect.pose = u_pose_new(0, -100, 96, 16);
+    self->L.letter.rect.pose = u_pose_new(0, 20, 180, 180);
+    self->L.text.pose = u_pose_new_aa(-72, 100, 1, 1);
+    self->L.name.pose = u_pose_new(-40, 100, 1, 1);
+    self->L.play.rect.pose = u_pose_new(0, 16-120, 2*96, 2*16);
 
     // box around yourname and name text fields
-    self->L.name_click_box = u_pose_new_aa(-60, 100,
+    self->L.name_click_box = u_pose_new_aa(-60, 120,
                                    
                    40+ LOGIN_NAME_MAX_LENGTH * self->L.name.offset.x,
                                            40 + self->L.name.offset.y);
