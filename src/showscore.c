@@ -19,6 +19,8 @@
 #define SHOWSCORE_URL "http://127.0.0.1:1000/api/swarm"
 #endif
 
+#define TEST
+
 
 #define CAM_SIZE_FACTOR (240.0f/180.0f)
 
@@ -98,7 +100,7 @@ ShowScore *showscore_new(const char *name, int score) {
     self->user_score = score;
     
     self->L.title = ro_text_new_font55(10);
-    ro_text_set_text(&self->L.title, "Haiscore:");
+    ro_text_set_text(&self->L.title, "Highscore:");
     ro_text_set_color(&self->L.title, (vec4) {{0, 0, 0, 0.5}});
     
     self->L.score = ro_text_new_font85(LINE_LEN*ROWS);
@@ -159,7 +161,7 @@ void showscore_update(ShowScore *self, float dtime) {
         ro_text_set_text(&self->L.score, "connection error :(");
         
         // test 
-        /*
+#ifdef TEST
         Highscore *h = rhc_calloc(sizeof *h);
         h->entries_size = 256;
         h->entries = rhc_calloc(sizeof *h->entries * h->entries_size);
@@ -185,7 +187,7 @@ void showscore_update(ShowScore *self, float dtime) {
             }
         }
         set_score(self);
-        */
+#endif
         
     }
     string_kill(&res);
