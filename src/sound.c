@@ -12,6 +12,8 @@ struct Sound {
     Mix_Chunk *boom;
     Mix_Chunk *fired;
 
+    Mix_Music *song;
+
     bool active;
 };
 
@@ -47,18 +49,15 @@ static void init(Sound *self) {
         return;
     }
 
-    Mix_Music *bubbles = Mix_LoadMUS("res/music_christmas_tree.ogg");
-    if (!bubbles) {
+    self->song = Mix_LoadMUS("res/music_christmas_tree.ogg");
+    if (!self->song) {
         log_warn("failed to load music: %s", Mix_GetError());
         return;
     }
 
     Mix_VolumeMusic(64);    // 128 is max
 
-    if (Mix_PlayMusic(bubbles, -1) == -1) {
-        log_warn("failed to play");
-        return;
-    }
+
 
     log_info("sound activated");
     self->active = true;
@@ -89,6 +88,13 @@ Sound *sound_new(eInput *input) {
 void sound_update(Sound *self, float dtime) {
     if (!self->active)
         return;
+}
+
+void sound_start_music(Sound *self) {
+    if (Mix_PlayMusic(self->song, -1) == -1) {
+        log_warn("failed to play music");
+        return;
+    }
 }
 
 void sound_play_fall(Sound *self) {
