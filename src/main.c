@@ -1,3 +1,5 @@
+#include <time.h>
+
 #include "e/simple.h"
 
 // hello world
@@ -123,6 +125,7 @@ static void render(eSimple *simple, ivec2 window_size, float dtime) {
 
 
 int main(int argc, char **argv) {
+    srand(time(NULL));
     e_simple_start("Santas Day Off", "Horsimann",
             1.0f,   // startup block time (the time in which "Horsimann" is displayed at startup)
             0,      // updates/s, <=0 to turn off and use fps

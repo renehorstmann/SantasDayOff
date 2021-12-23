@@ -49,7 +49,14 @@ static void init(Sound *self) {
         return;
     }
 
-    self->song = Mix_LoadMUS("res/music_christmas_tree.ogg");
+    const char *song_files[] = {
+            "res/music_christmas_tree.ogg",
+            "res/music_we_wish_you.ogg",
+            "res/music_jingle_bells.ogg",
+
+    };
+
+    self->song = Mix_LoadMUS(song_files[rand()%3]);
     if (!self->song) {
         log_warn("failed to load music: %s", Mix_GetError());
         return;
