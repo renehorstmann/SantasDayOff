@@ -19,7 +19,7 @@
 #define SHOWSCORE_URL "http://127.0.0.1:1000/api/santasdayoff"
 #endif
 
-#define TEST
+//#define TEST
 
 
 #define CAM_SIZE_FACTOR (240.0f/180.0f)
