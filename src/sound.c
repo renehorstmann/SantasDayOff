@@ -4,18 +4,13 @@
 #include "mathc/sca/float.h"
 #include "sound.h"
 
-#define FALL_PER_SECOND 1.5
-#define TOCK_PER_SECOND 1.5
-
 struct Sound {
     eInput *input_ref;
 
     Mix_Chunk *fall;
     Mix_Chunk *tock;
+    Mix_Chunk *boom;
     Mix_Chunk *fired;
-
-    float fall_per_second;
-    float tock_per_second;
 
     bool active;
 };
@@ -25,7 +20,7 @@ static void init(Sound *self) {
     
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
         log_warn("sound not working");
-        return;;
+        return;
     }
 
     self->fall = Mix_LoadWAV("res/sound_falldown.wav");
@@ -37,6 +32,12 @@ static void init(Sound *self) {
     self->tock = Mix_LoadWAV("res/sound_tock.wav");
     if (!self->tock) {
         log_warn("failed to load tock");
+        return;
+    }
+
+    self->boom = Mix_LoadWAV("res/sound_boom.wav");
+    if (!self->boom) {
+        log_warn("failed to load boom");
         return;
     }
 
@@ -52,10 +53,10 @@ static void init(Sound *self) {
         return;
     }
 
-    if (Mix_PlayMusic(bubbles, -1) == -1) {
-        log_warn("failed to play");
-        return;
-    }
+//    if (Mix_PlayMusic(bubbles, -1) == -1) {
+//        log_warn("failed to play");
+//        return;
+//    }
 
     log_info("sound activated");
     self->active = true;
@@ -86,16 +87,11 @@ Sound *sound_new(eInput *input) {
 void sound_update(Sound *self, float dtime) {
     if (!self->active)
         return;
-    self->fall_per_second = sca_max(0, self->fall_per_second - dtime * FALL_PER_SECOND);
-    self->tock_per_second = sca_max(0, self->tock_per_second - dtime * TOCK_PER_SECOND);
 }
 
 void sound_play_fall(Sound *self) {
     if (!self->active)
         return;
-    if (self->fall_per_second > FALL_PER_SECOND)
-        return;
-    self->fall_per_second += 1;
     if (Mix_PlayChannel(-1, self->fall, 0) == -1) {
         log_warn("failed to play");
         return;
@@ -105,10 +101,16 @@ void sound_play_fall(Sound *self) {
 void sound_play_tock(Sound *self) {
     if (!self->active)
         return;
-    if (self->tock_per_second > TOCK_PER_SECOND)
-        return;
-    self->tock_per_second += 1;
     if (Mix_PlayChannel(-1, self->tock, 0) == -1) {
+        log_warn("failed to play");
+        return;
+    }
+}
+
+void sound_play_boom(Sound *self) {
+    if (!self->active)
+        return;
+    if (Mix_PlayChannel(-1, self->boom, 0) == -1) {
         log_warn("failed to play");
         return;
     }

@@ -13,6 +13,8 @@ void sound_play_fall(Sound *self);
 
 void sound_play_tock(Sound *self);
 
+void sound_play_boom(Sound *self);
+
 void sound_play_fired(Sound *self);
 
 #endif //SANTASDAYOFF_SOUND_H

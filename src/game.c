@@ -9,7 +9,7 @@ static void game_start(Game *self) {
     self->gifts = gifts_new(self->particles_ref, self->sound_ref);
     self->houses = houses_new(self->particles_ref); 
     self->score = score_new();
-    self->fired = fired_new(self->name_ref);
+    self->fired = fired_new(self->name_ref, self->sound_ref);
 }
 
 static void game_end(Game *self) {

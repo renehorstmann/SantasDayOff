@@ -60,6 +60,8 @@ Gifts *gifts_new(PixelParticles *particles, Sound *sound) {
     self->sound_ref = sound;
     
     self->L.ro = ro_batch_new(GIFTS_MAX, r_texture_new_file(4, 2, "res/gifts.png"));
+
+    self->L.play_boom = true;
     
     for(int i=0; i<GIFTS_MAX; i++) {
         self->L.ro.rects[i].pose = u_pose_new(NAN, NAN, 32, 32);
@@ -93,7 +95,10 @@ void gifts_update(Gifts *self, float dtime) {
             y = GROUND;
             self->L.speed[i] = NAN;
 
-            sound_play_tock(self->sound_ref);
+            if(self->L.play_boom)
+                sound_play_boom(self->sound_ref);
+            else
+                sound_play_tock(self->sound_ref);
         }
         
         u_pose_set_y(&self->L.ro.rects[i].pose, y);

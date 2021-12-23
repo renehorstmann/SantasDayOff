@@ -13,10 +13,11 @@
 #define TEXT_SIZE 3.0
 
 
-Fired *fired_new(const char *name_ref) {
+Fired *fired_new(const char *name_ref, Sound *sound) {
     Fired *self = rhc_calloc(sizeof *self);
     
     self->name_ref = name_ref;
+    self->sound_ref = sound;
 
     self->L.ro = ro_single_new(r_texture_new_white_pixel());
     self->L.ro.rect.pose = u_pose_new(0, 0, 2048, 2048);
@@ -54,7 +55,12 @@ void fired_update(Fired *self, float dtime, const Camera_s *cam) {
         sprintf(buf, "Warning!");
     } else if(self->in.meter <= 0) {
         sprintf(buf, "You are\n fired!");
-        
+
+        if(!self->L.fired_sound) {
+            self->L.fired_sound = true;
+            sound_play_fired(self->sound_ref);
+        }
+
         if(!self->showscore) {
             log_info("fired: starting showscore");
             self->showscore = showscore_new(self->name_ref, self->in.score);

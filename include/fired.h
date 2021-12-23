@@ -5,11 +5,13 @@
 #include "r/ro_types.h"
 #include "camera.h"
 #include "showscore.h"
+#include "sound.h"
 
 
 typedef struct {
     const char *name_ref;
-    
+    Sound *sound_ref;
+
     ShowScore *showscore;
     
     struct {
@@ -26,10 +28,11 @@ typedef struct {
         RoSingle btn;
         RoText info;
         RoText credits;
+        bool fired_sound;
     } L;
 } Fired;
 
-Fired *fired_new(const char *name_ref);
+Fired *fired_new(const char *name_ref, Sound *sound);
 
 void fired_kill(Fired **self_ptr);
 

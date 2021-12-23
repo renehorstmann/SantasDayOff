@@ -20,6 +20,7 @@ typedef struct {
         float speed[GIFTS_MAX];
         int last;
         float particles_time;
+        bool play_boom;
     } L;
 } Gifts;
 
