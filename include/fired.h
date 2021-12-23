@@ -35,7 +35,7 @@ void fired_kill(Fired **self_ptr);
 
 void fired_update(Fired *self, float dtime, const Camera_s *cam);
 
-void fired_render(const Fired *self, const mat4 *cam_mat);
+void fired_render(Fired *self, const mat4 *cam_mat);
 
 void fired_pointer_event(Fired *self, ePointer_s pointer);
 

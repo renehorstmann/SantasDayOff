@@ -82,12 +82,22 @@ void fired_update(Fired *self, float dtime, const Camera_s *cam) {
     }
 }
 
-void fired_render(const Fired *self, const mat4 *cam_mat) {
+void fired_render(Fired *self, const mat4 *cam_mat) {
     
     if (self->in.meter > METER_SHOW)
         return;
     ro_single_render(&self->L.ro, cam_mat);
+    
+    // shadow
+    ro_text_set_color(&self->L.info, (vec4) {{0.6, 0.1, 0.1, 0.5}});
     ro_text_render(&self->L.info, cam_mat);
+    ro_text_set_color(&self->L.info, (vec4) {{0.8, 0.1, 0.1, 1.0}});
+    self->L.info.pose.m30--;
+    self->L.info.pose.m31++;
+    
+    ro_text_render(&self->L.info, cam_mat);
+    
+    
     if(self->showscore)
         showscore_render(self->showscore, cam_mat);    
     if (self->in.meter <= 0) {
