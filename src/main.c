@@ -121,7 +121,7 @@ static void render(eSimple *simple, ivec2 window_size, float dtime) {
     snprintf(buf, 32, "%i %i", window_size.x, window_size.y);
     ro_text_set_text(&L.info, buf);
     L.info.pose = u_pose_new(-32, L.camera.RO.top-1, 1, 1);
-    ro_text_render(&L.info, hudcam_mat);
+    //ro_text_render(&L.info, hudcam_mat);
     
     // uncomment to clone the current framebuffer into r_render_get_framebuffer_tex
     // r_render_blit_framebuffer(simple->render, window_size);

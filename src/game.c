@@ -84,8 +84,8 @@ void game_render_main(const Game *self, const mat4 *cam_mat) {
 
 void game_render_hud(const Game *self, const mat4 *hudcam_mat) {
     bag_render(self->bag, hudcam_mat);
-    score_render(self->score, hudcam_mat);
     fired_render(self->fired, hudcam_mat);
+    score_render(self->score, hudcam_mat);
 }
 
 

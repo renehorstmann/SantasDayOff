@@ -101,7 +101,7 @@ ShowScore *showscore_new(const char *name, int score) {
     
     self->L.title = ro_text_new_font55(10);
     ro_text_set_text(&self->L.title, "SantaScore:");
-    ro_text_set_color(&self->L.title, (vec4) {{0, 0, 0, 0.5}});
+    ro_text_set_color(&self->L.title, R_COLOR_BLACK);
     
     self->L.score = ro_text_new_font85(LINE_LEN*ROWS);
     self->L.score.offset.y = 10;
