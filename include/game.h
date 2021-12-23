@@ -15,8 +15,10 @@
 
 typedef struct Game {
     PixelParticles *particles_ref;
+    Sound *sound_ref;
     
     const char *name_ref;
+
 
     Santa *santa;
     Bag *bag;
@@ -28,9 +30,7 @@ typedef struct Game {
 } Game;
 
 
-Game *game_new(PixelParticles *particles, const char *name_ref);
-
-void game_kill(Game **self_ptr);
+Game *game_new(PixelParticles *particles, Sound *sound, const char *name_ref);
 
 void game_update(Game *self, float dtime, Camera_s *cam);
 

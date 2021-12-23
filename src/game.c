@@ -6,7 +6,7 @@
 static void game_start(Game *self) {
     self->santa = santa_new(self->particles_ref);
     self->bag = bag_new(); 
-    self->gifts = gifts_new(self->particles_ref);
+    self->gifts = gifts_new(self->particles_ref, self->sound_ref);
     self->houses = houses_new(self->particles_ref); 
     self->score = score_new();
     self->fired = fired_new(self->name_ref);
@@ -21,10 +21,11 @@ static void game_end(Game *self) {
     fired_kill(&self->fired);
 }
 
-Game *game_new(PixelParticles *particles, const char *name_ref) {
+Game *game_new(PixelParticles *particles, Sound *sound, const char *name_ref) {
     Game *self = rhc_calloc(sizeof *self);
 
     self->particles_ref = particles;
+    self->sound_ref = sound;
     
     self->name_ref = name_ref;
 

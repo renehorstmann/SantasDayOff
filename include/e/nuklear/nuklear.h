@@ -19989,7 +19989,7 @@ nk_begin_titled(struct nk_context *ctx, const char *name, const char *title,
         struct nk_rect win_bounds = (!(win->flags & NK_WINDOW_MINIMIZED))?
             win->bounds: nk_rect(win->bounds.x, win->bounds.y, win->bounds.w, h);
 
-        /* activate window if hovered and no other window is overlapping this window */
+        /* fall window if hovered and no other window is overlapping this window */
         inpanel = nk_input_has_mouse_click_down_in_rect(&ctx->input, NK_BUTTON_LEFT, win_bounds, nk_true);
         inpanel = inpanel && ctx->input.mouse.buttons[NK_BUTTON_LEFT].clicked;
         ishovered = nk_input_is_mouse_hovering_rect(&ctx->input, win_bounds);
@@ -20012,7 +20012,7 @@ nk_begin_titled(struct nk_context *ctx, const char *name, const char *title,
             }
         }
 
-        /* activate window if clicked */
+        /* fall window if clicked */
         if (iter && inpanel && (win != ctx->end)) {
             iter = win->next;
             while (iter) {
@@ -26533,7 +26533,7 @@ nk_do_edit(nk_flags *state, struct nk_command_buffer *out,
                                 bounds.x, bounds.y, bounds.w, bounds.h);
     }
 
-    /* (de)activate text editor */
+    /* (de)fall text editor */
     if (!prev_state && edit->active) {
         const enum nk_text_edit_type type = (flags & NK_EDIT_MULTILINE) ?
             NK_TEXT_EDIT_MULTI_LINE: NK_TEXT_EDIT_SINGLE_LINE;
@@ -29348,7 +29348,7 @@ nk_tooltipfv(struct nk_context *ctx, const char *fmt, va_list args)
 /// - 2016/08/26 (1.10.0) - Added stacks for temporary style/UI changes in code.
 /// - 2016/08/25 (1.10.0) - Changed `nk_input_is_key_pressed` and 'nk_input_is_key_released'
 ///                        to account for key press and release happening in one frame.
-/// - 2016/08/25 (1.10.0) - Added additional nk_edit flag to directly jump to the end on activate.
+/// - 2016/08/25 (1.10.0) - Added additional nk_edit flag to directly jump to the end on fall.
 /// - 2016/08/17 (1.09.6) - Removed invalid check for value zero in `nk_propertyx`.
 /// - 2016/08/16 (1.09.5) - Fixed ROM mode for deeper levels of popup windows parents.
 /// - 2016/08/15 (1.09.4) - Editbox are now still active if enter was pressed with flag

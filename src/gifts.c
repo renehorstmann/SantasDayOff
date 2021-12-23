@@ -53,10 +53,11 @@ static void emit_particles(Gifts *self, int n, int id, vec2 pos) {
 
 
 
-Gifts *gifts_new(PixelParticles *particles) {
+Gifts *gifts_new(PixelParticles *particles, Sound *sound) {
     Gifts *self = rhc_calloc(sizeof *self);
     
     self->particles_ref = particles;
+    self->sound_ref = sound;
     
     self->L.ro = ro_batch_new(GIFTS_MAX, r_texture_new_file(4, 2, "res/gifts.png"));
     
@@ -91,6 +92,8 @@ void gifts_update(Gifts *self, float dtime) {
         if(y <= GROUND) {
             y = GROUND;
             self->L.speed[i] = NAN;
+
+            sound_play_tock(self->sound_ref);
         }
         
         u_pose_set_y(&self->L.ro.rects[i].pose, y);
@@ -116,4 +119,6 @@ void gifts_add(Gifts *self, int id, vec2 start) {
     u_pose_set_xy(&self->L.ro.rects[idx].pose, start.x, start.y);
     self->L.ro.rects[idx].sprite = (vec2) {{ id%4, id/4 }};
     self->L.ro.rects[idx].color.rgb = vec3_random_range(0.75, 1.0);
+
+    sound_play_fall(self->sound_ref);
 }

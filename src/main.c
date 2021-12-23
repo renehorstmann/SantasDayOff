@@ -16,6 +16,7 @@ static struct {
     Camera_s camera;
     
     PixelParticles *particles;
+    Sound *sound;
     
     Background *bg;
     Snow *snow;
@@ -50,6 +51,8 @@ static void init(eSimple *simple, ivec2 window_size) {
     
     L.particles = pixelparticles_new();
 
+    L.sound = sound_new(simple->input);
+
     L.bg = background_new(simple->render, 1024*64, 1024, true, false, "res/bg.png");
     
     L.snow = snow_new();
@@ -76,7 +79,7 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
         if(L.login->out.done) {
             strcpy(L.name, L.login->out.name);
             login_kill(&L.login);
-            L.game = game_new(L.particles, L.name);
+            L.game = game_new(L.particles, L.sound, L.name);
         }
     }
     

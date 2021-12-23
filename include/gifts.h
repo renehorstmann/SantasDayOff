@@ -3,11 +3,13 @@
 
 #include "r/ro_types.h"
 #include "pixelparticles.h"
+#include "sound.h"
 
 #define GIFTS_MAX 512
 
 typedef struct {
     PixelParticles *particles_ref;
+    Sound *sound_ref;
     
     struct {
         float start_speed;
@@ -22,7 +24,7 @@ typedef struct {
 } Gifts;
 
 
-Gifts *gifts_new(PixelParticles *particles);
+Gifts *gifts_new(PixelParticles *particles, Sound *sound);
 
 void gifts_kill(Gifts **self_ptr);
 

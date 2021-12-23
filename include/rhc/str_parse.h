@@ -291,7 +291,7 @@ static Str_s str_eat_double_binary_be(Str_s s, double *opt_eaten) {
 }
 
 //
-// feed binary
+// tock binary
 //
 
 // feeds an intx_t as binary little endian and returns the str without it (behind it).

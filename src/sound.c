@@ -4,17 +4,18 @@
 #include "mathc/sca/float.h"
 #include "sound.h"
 
-#define FEED_PER_SECOND 1.5
+#define FALL_PER_SECOND 1.5
+#define TOCK_PER_SECOND 1.5
 
 struct Sound {
     eInput *input_ref;
 
-    Mix_Chunk *activate;
-    Mix_Chunk *feed;
-    Mix_Chunk *shark;
-    Mix_Chunk *gameover;
+    Mix_Chunk *fall;
+    Mix_Chunk *tock;
+    Mix_Chunk *fired;
 
-    float feed_per_second;
+    float fall_per_second;
+    float tock_per_second;
 
     bool active;
 };
@@ -27,33 +28,27 @@ static void init(Sound *self) {
         return;;
     }
 
-    self->activate = Mix_LoadWAV("res/sound_activate.wav");
-    if (!self->activate) {
-        log_warn("failed to load activate");
+    self->fall = Mix_LoadWAV("res/sound_falldown.wav");
+    if (!self->fall) {
+        log_warn("failed to load fall");
         return;
     }
 
-    self->feed = Mix_LoadWAV("res/sound_feed.wav");
-    if (!self->feed) {
-        log_warn("failed to load feed");
+    self->tock = Mix_LoadWAV("res/sound_tock.wav");
+    if (!self->tock) {
+        log_warn("failed to load tock");
         return;
     }
 
-    self->shark = Mix_LoadWAV("res/sound_shark.wav");
-    if (!self->shark) {
-        log_warn("failed to load shark");
+    self->fired = Mix_LoadWAV("res/sound_fired.wav");
+    if (!self->fired) {
+        log_warn("failed to load fired");
         return;
     }
 
-    self->gameover = Mix_LoadWAV("res/sound_gameover.wav");
-    if (!self->gameover) {
-        log_warn("failed to load gameover");
-        return;
-    }
-
-    Mix_Music *bubbles = Mix_LoadMUS("res/sound_bubbles.ogg");
+    Mix_Music *bubbles = Mix_LoadMUS("res/music_christmas_tree.ogg");
     if (!bubbles) {
-        log_warn("failed to load bubbles: %s", Mix_GetError());
+        log_warn("failed to load music: %s", Mix_GetError());
         return;
     }
 
@@ -91,43 +86,38 @@ Sound *sound_new(eInput *input) {
 void sound_update(Sound *self, float dtime) {
     if (!self->active)
         return;
-    self->feed_per_second = sca_max(0, self->feed_per_second - dtime * FEED_PER_SECOND);
+    self->fall_per_second = sca_max(0, self->fall_per_second - dtime * FALL_PER_SECOND);
+    self->tock_per_second = sca_max(0, self->tock_per_second - dtime * TOCK_PER_SECOND);
 }
 
-void sound_play_activate(Sound *self) {
+void sound_play_fall(Sound *self) {
     if (!self->active)
         return;
-    if (Mix_PlayChannel(-1, self->activate, 0) == -1) {
+    if (self->fall_per_second > FALL_PER_SECOND)
+        return;
+    self->fall_per_second += 1;
+    if (Mix_PlayChannel(-1, self->fall, 0) == -1) {
         log_warn("failed to play");
         return;
     }
 }
 
-void sound_play_feed(Sound *self) {
+void sound_play_tock(Sound *self) {
     if (!self->active)
         return;
-    if (self->feed_per_second > FEED_PER_SECOND)
+    if (self->tock_per_second > TOCK_PER_SECOND)
         return;
-    self->feed_per_second += 1;
-    if (Mix_PlayChannel(-1, self->feed, 0) == -1) {
+    self->tock_per_second += 1;
+    if (Mix_PlayChannel(-1, self->tock, 0) == -1) {
         log_warn("failed to play");
         return;
     }
 }
 
-void sound_play_shark(Sound *self) {
+void sound_play_fired(Sound *self) {
     if (!self->active)
         return;
-    if (Mix_PlayChannel(-1, self->shark, 0) == -1) {
-        log_warn("failed to play");
-        return;
-    }
-}
-
-void sound_play_gameover(Sound *self) {
-    if (!self->active)
-        return;
-    if (Mix_PlayChannel(-1, self->gameover, 0) == -1) {
+    if (Mix_PlayChannel(-1, self->fired, 0) == -1) {
         log_warn("failed to play");
         return;
     }
