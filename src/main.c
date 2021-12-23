@@ -80,6 +80,7 @@ static void update(eSimple *simple, ivec2 window_size, float dtime) {
             strcpy(L.name, L.login->out.name);
             login_kill(&L.login);
             L.game = game_new(L.particles, L.sound, L.name);
+            sound_start_music(L.sound);
         }
     }
     

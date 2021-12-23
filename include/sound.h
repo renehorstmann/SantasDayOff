@@ -9,6 +9,8 @@ Sound *sound_new(eInput *input);
 
 void sound_update(Sound *self, float dtime);
 
+void sound_start_music(Sound *self);
+
 void sound_play_fall(Sound *self);
 
 void sound_play_tock(Sound *self);
