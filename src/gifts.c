@@ -61,7 +61,7 @@ Gifts *gifts_new(PixelParticles *particles, Sound *sound) {
     
     self->L.ro = ro_batch_new(GIFTS_MAX, r_texture_new_file(4, 2, "res/gifts.png"));
 
-    self->L.play_boom = true;
+    self->L.play_boom = false;
     
     for(int i=0; i<GIFTS_MAX; i++) {
         self->L.ro.rects[i].pose = u_pose_new(NAN, NAN, 32, 32);
