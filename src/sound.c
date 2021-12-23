@@ -53,10 +53,12 @@ static void init(Sound *self) {
         return;
     }
 
-//    if (Mix_PlayMusic(bubbles, -1) == -1) {
-//        log_warn("failed to play");
-//        return;
-//    }
+    Mix_VolumeMusic(64);    // 128 is max
+
+    if (Mix_PlayMusic(bubbles, -1) == -1) {
+        log_warn("failed to play");
+        return;
+    }
 
     log_info("sound activated");
     self->active = true;
