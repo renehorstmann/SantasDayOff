@@ -22,10 +22,7 @@ static void init(Sound *self) {
     
     // sdl mixer default hz was 22050
     
-    if (Mix_OpenAudio(22050, 
-            AUDIO_U8,
-            //MIX_DEFAULT_FORMAT, 
-            1, 64) == -1) {
+    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 1, 64) == -1) {
         log_warn("sound not working");
         return;
     }
