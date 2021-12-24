@@ -58,6 +58,15 @@ static float camera_height(const Camera_s *self) {
     return -self->RO.bottom + self->RO.top;
 }
 
+static float camera_full_width(const Camera_s *self) {
+    return -self->RO.full_left + self->RO.full_right;
+}
+
+static float camera_full_height(const Camera_s *self) {
+    return -self->RO.full_bottom + self->RO.full_top;
+}
+
+
 void camera_set_pos(Camera_s *self, float x, float y);
 
 void camera_set_size(Camera_s *self, float size);
@@ -65,7 +74,7 @@ void camera_set_size(Camera_s *self, float size);
 void camera_set_angle(Camera_s *self, float alpha);
 
 static bool camera_is_portrait_mode(const Camera_s *self) {
-    return camera_height(self) > camera_width(self);
+    return camera_full_height(self) > camera_full_width(self);
 }
 
 
