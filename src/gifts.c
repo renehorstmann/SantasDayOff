@@ -97,8 +97,11 @@ void gifts_update(Gifts *self, float dtime) {
 
             if(self->L.play_boom)
                 sound_play_boom(self->sound_ref);
+            
+            /* sound comes late... (boom, too, but its an easter egg...)
             else
                 sound_play_tock(self->sound_ref);
+            */
         }
         
         u_pose_set_y(&self->L.ro.rects[i].pose, y);
