@@ -3,9 +3,6 @@ A mini game in which you help Santa to deliver his gifts to the children.
 Have a look at the wishes to get the perfect score.
 If you do to much mistakes, you will get fired!
 
-# WARNING
-In active development...
-
 ## Livedemo
 [Emscripten compiled game](https://renehorstmann.github.io/santasdayoff/)
 
@@ -65,10 +62,6 @@ Add the following changes to the generated index.html (into the head...):
 </script>
 ```
 This will let Emscripten run in fullscreen and display an error text, if the app / game is not able to run (WebGL2.0 support missing)
-
-
-## Todo
-- sounds
 
 
 ## Author
