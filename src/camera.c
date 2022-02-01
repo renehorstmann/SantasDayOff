@@ -99,14 +99,14 @@ void camera_update(Camera_s *self, ivec2 window_size) {
         self->RO.offset = (vec2) {{0, 0}};
     }
 
-    self->RO.left = left;
-    self->RO.right = right;
-    self->RO.top = top;
-    self->RO.bottom = bottom;
-    self->RO.full_left = cam_left;
-    self->RO.full_right = cam_right;
-    self->RO.full_top = cam_top;
-    self->RO.full_bottom = cam_bottom;
+    self->RO.left = sca_floor(left);
+    self->RO.right = sca_ceil(right);
+    self->RO.bottom = sca_floor(bottom);
+    self->RO.top = sca_ceil(top);
+    self->RO.full_left = sca_floor(cam_left);
+    self->RO.full_right = sca_ceil(cam_right);
+    self->RO.full_bottom = sca_floor(cam_bottom);
+    self->RO.full_top = sca_ceil(cam_top);
    
    
     // view_aabb:
@@ -126,8 +126,8 @@ void camera_set_pos(Camera_s *self, float x, float y) {
     
     // cx = x; cy = y;
     
-    //x = floorf(x * self->RO.scale) / self->RO.scale;
-    //y = floorf(y * self->RO.scale) / self->RO.scale;
+    x = floorf(x * self->RO.scale) / self->RO.scale;
+    y = floorf(y * self->RO.scale) / self->RO.scale;
 
     for (int i = 0; i < CAMERA_BACKGROUNDS; i++) {
         float t = (float)i / CAMERA_BACKGROUNDS;

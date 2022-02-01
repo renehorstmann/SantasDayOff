@@ -48,8 +48,8 @@ void e_window_reset_main_loop(eWindow *self, e_window_main_loop_fn main_loop);
 // returns the windows canvas pixel size
 ivec2 e_window_get_size(const eWindow *self);
 
-// if fall is false, vsync is disables
-// if fall is true, adaptive-vsync is tried and if not available, normal vsync is applied
+// if activate is false, vsync is disables
+// if activate is true, adaptive-vsync is tried and if not available, normal vsync is applied
 // call this function, if the main loop has been set
 void e_window_set_vsync(const eWindow *self, bool activate);
 
