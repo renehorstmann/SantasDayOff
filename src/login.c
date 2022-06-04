@@ -73,7 +73,7 @@ Login *login_new(eInput *input) {
 
     // poses
     self->L.letter.rect.pose = u_pose_new(0, 20, 180, 180);
-    self->L.text.pose = u_pose_new_aa(-72, 100, 1, 1);
+    self->L.text.pose = u_pose_new(-72, 100, 1, 1);
     self->L.name.pose = u_pose_new(-40, 100, 1, 1);
     self->L.play.rect.pose = u_pose_new(0, 16-120, 2*96, 2*16);
 

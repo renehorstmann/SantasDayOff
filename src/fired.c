@@ -77,7 +77,7 @@ void fired_update(Fired *self, float dtime, const Camera_s *cam) {
 
     self->L.btn.rect.pose = u_pose_new(0, cam->RO.top - 104, 2*96, 2*16);
 
-    self->L.credits.pose = u_pose_new_aa(
+    self->L.credits.pose = u_pose_new(
             cam->RO.left + 10, 
             cam->RO.top, 
             1, 1);

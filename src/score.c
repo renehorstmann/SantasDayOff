@@ -82,7 +82,7 @@ void score_update(Score *self, float dtime, const Camera_s *cam) {
     snprintf(buf, sizeof buf, "Score: %-9i", self->score);
     vec2 size = ro_text_set_text(&self->L.score_ro, buf);
     
-    self->L.score_ro.pose = u_pose_new_aa(cam->RO.right - size.x, cam->RO.top-16, 1, 1);
+    self->L.score_ro.pose = u_pose_new(cam->RO.right - size.x, cam->RO.top-16, 1, 1);
     
 }
 
